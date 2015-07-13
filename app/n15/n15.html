@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+    <script src="n15.js"></script>
+    <link rel="stylesheet" href="n15.css">
+</head>
+<body>
+    <div ng-app="n15App" ng-controller="n15Controller">
+        {{createInitProgressGrid();}}
+        {{calculateStandings();}}
+        <div id="standings">
+            <table border="1">
+                <tr>
+                    <td class="teamNoHeader">Team No</td>
+                    <td>Team Name</td>
+                    <td>Players</td>
+                    <td class="statDetailHeader">GP</td>
+                    <td class="statDetailHeader">W</td>
+                    <td class="statDetailHeader">RL</td>
+                    <td class="statDetailHeader">OSL</td>
+                    <td class="statDetailHeader">PTS</td>
+                    <td class="statDetailHeader">SW</td>
+                    <td class="statDetailHeader">SL</td>
+                    <td class="statDetailHeader">ROW</td>
+                    <td class="statDetailHeader">GF</td>
+                    <td class="statDetailHeader">GA</td>
+                    <td class="statDetailHeader">GDIFF</td>
+                </tr>
+                <tr ng-repeat="x in teams | orderBy: ['-points', 'gamesPlayed', '-regulationOvertimeWins','-goalDifferential']">
+                    <td class="teamNo">{{x.id}}</td>
+                    <td>{{x.teamName}}</td>
+                    <td>{{x.teammates}}</td>
+                    <td class="statDetail">{{x.gamesPlayed}}</td>
+                    <td class="statDetail">{{x.wins}}</td>
+                    <td class="statDetail">{{x.regulationLosses}}</td>
+                    <td class="statDetail">{{x.overtimeShootoutLosses}}</td>
+                    <td class="statDetail">{{x.points}}</td>
+                    <td class="statDetail">{{x.shootoutWins}}</td>
+                    <td class="statDetail">{{x.shootoutLosses}}</td>
+                    <td class="statDetail">{{x.regulationOvertimeWins}}</td>
+                    <td class="statDetail">{{x.goalsFor}}</td>
+                    <td class="statDetail">{{x.goalsAgainst}}</td>
+                    <td class="statDetail">{{x.goalDifferential}}</td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div id="progress">
+            <table border="1" id="progressGrid">
+                <tr>
+                    <td ng-repeat="x in teams" ng-class="{progressGridCell: true}">
+                        {{x.city}}
+                    </td>
+                    <td></td>
+                </tr>
+                <tr ng-repeat="x in teams">
+                    <td ng-repeat="y in teams" ng-class="{bg: $index==$parent.$index, progressGridCell: true}">
+                        {{showProgress(x.id, y.id);}}
+                    </td>
+                    <td>@{{x.city}}</td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div id="scores">
+            <table border="1">
+                <tr>
+                    <td>Game Id</td>
+                    <td>Game Date</td>
+                    <td>Visiting Team</td>
+                    <td>Home Team</td>
+                    <td>Result</td>
+                </tr>
+                <tr ng-repeat="x in gameResults">
+                    <td>{{x.id}}</td>
+                    <td>{{x.date}}</td>
+                    <td>
+                        <span ng-show="awayTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)" class="highlight">
+                                {{teams[x.awayTeam - 1].teamName + " (" + teams[x.awayTeam - 1].teammates + ")"}}
+                        </span>
+                        <span ng-show="!awayTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)">
+                                {{teams[x.awayTeam - 1].teamName + " (" + teams[x.awayTeam - 1].teammates + ")"}}
+                        </span>
+                    </td>
+                    <td>
+                        <span ng-show="homeTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)" class="highlight">
+                                @{{teams[x.homeTeam - 1].teamName + " (" + teams[x.homeTeam - 1].teammates + ")"}}
+                        </span>
+                        <span ng-show="!homeTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)">
+                                @{{teams[x.homeTeam - 1].teamName + " (" + teams[x.homeTeam - 1].teammates + ")"}}
+                        </span>
+                    </td>
+                    <td>{{formattedGameResult(x.finalScoreAwayTeam, x.finalScoreHomeTeam, x.OT, x.SO);}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
