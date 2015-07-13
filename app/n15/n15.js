@@ -1,30 +1,17 @@
 var app = angular.module('n15App', []);
 
-app.controller('n15Controller', function ($scope) {
+app.controller('n15Controller', function ($scope, $http) {
 
-    $scope.teams = [
-       {id: 1, city: "Anaheim", teamName: "Anaheim Ducks", teammates: "Arsen/Mladen"},
-       {id: 2, city: "Tampa", teamName: "Tampa Bay Lightning", teammates: "Sergei/Gabe"},
-       {id: 3, city: "Chicago", teamName: "Chicago Blackhawks", teammates: "Chad/Vlad"},
-       {id: 4, city: "Washington", teamName: "Washington Capitals", teammates: "Isaac/Mauro"},
-       {id: 5, city: "Montreal", teamName: "Montreal Canadiens", teammates: "Will/Ben Y "},
-       {id: 6, city: "St. Louis", teamName: "St. Louis Blues", teammates: "Vikas/Henry"},
-       {id: 7, city: "Dallas", teamName: "Dallas Stars", teammates: "Ben C/Bernardo"}
-    ];
-
-    $scope.gameResults = [
-       {id: 1, date: "07/07/2015", awayTeam: 3, homeTeam: 6, finalScoreAwayTeam: 1, finalScoreHomeTeam: 3, OT: false, SO: false},
-       {id: 2, date: "07/07/2015", awayTeam: 6, homeTeam: 1, finalScoreAwayTeam: 3, finalScoreHomeTeam: 2, OT: true, SO: true},
-       {id: 3, date: "07/07/2015", awayTeam: 2, homeTeam: 6, finalScoreAwayTeam: 1, finalScoreHomeTeam: 0, OT: false, SO: false},
-       {id: 4, date: "07/07/2015", awayTeam: 5, homeTeam: 1, finalScoreAwayTeam: 1, finalScoreHomeTeam: 2, OT: true, SO: false},
-       {id: 5, date: "07/08/2015", awayTeam: 7, homeTeam: 4, finalScoreAwayTeam: 0, finalScoreHomeTeam: 1, OT: false, SO: false},
-       {id: 6, date: "07/08/2015", awayTeam: 1, homeTeam: 7, finalScoreAwayTeam: 2, finalScoreHomeTeam: 3, OT: false, SO: false},
-       {id: 7, date: "07/09/2015", awayTeam: 2, homeTeam: 3, finalScoreAwayTeam: 1, finalScoreHomeTeam: 0, OT: false, SO: false},
-       {id: 8, date: "07/09/2015", awayTeam: 2, homeTeam: 4, finalScoreAwayTeam: 1, finalScoreHomeTeam: 0, OT: false, SO: false},
-       {id: 9, date: "07/09/2015", awayTeam: 4, homeTeam: 7, finalScoreAwayTeam: 0, finalScoreHomeTeam: 2, OT: false, SO: false},
-       {id: 10, date: "07/09/2015", awayTeam: 7, homeTeam: 2, finalScoreAwayTeam: 2, finalScoreHomeTeam: 0, OT: false, SO: false},
-       {id: 11, date: "07/10/2015", awayTeam: 5, homeTeam: 4, finalScoreAwayTeam: 3, finalScoreHomeTeam: 2, OT: true, SO: true}
-    ];
+    $http.get('tournament.json')
+            .success(function(res) {
+                $scope.teams = res.teams;
+                $scope.gameResults = res.gameResults;
+                $scope.createInitProgressGrid();
+                $scope.calculateStandings();
+            })
+            .error(function (data, status, headers, config) {
+                console.log("error loading data");
+            });
 
     $scope.progressGrid = [];
 
@@ -49,21 +36,21 @@ app.controller('n15Controller', function ($scope) {
         var progressGrid = $scope.progressGrid;
 
         angular.forEach(gameResults, function(gameResult) {
-            var homeTeam = teams[gameResult.homeTeam - 1];
-            var awayTeam = teams[gameResult.awayTeam - 1];
+            var homeTeam = teams[gameResult.homeTeamId - 1];
+            var awayTeam = teams[gameResult.awayTeamId - 1];
 
 
             if(gameResult.finalScoreAwayTeam > gameResult.finalScoreHomeTeam) {
                 RecordGameResults(awayTeam, gameResult.finalScoreAwayTeam, homeTeam, gameResult.finalScoreHomeTeam,
-                    gameResult.OT, gameResult.SO);
+                    gameResult.hadOT, gameResult.hadSO);
             }
             else if (gameResult.finalScoreHomeTeam > gameResult.finalScoreAwayTeam) {
                 RecordGameResults(homeTeam, gameResult.finalScoreHomeTeam, awayTeam, gameResult.finalScoreAwayTeam,
-                    gameResult.OT, gameResult.SO);
+                    gameResult.hadOT, gameResult.hadSO);
             }
 
             progressGrid[homeTeam.id - 1][awayTeam.id - 1] = $scope.formattedGameResult(gameResult.finalScoreAwayTeam,
-                gameResult.finalScoreHomeTeam, gameResult.OT, gameResult.SO);
+                gameResult.finalScoreHomeTeam, gameResult.hadOT, gameResult.hadSO);
 
             function RecordGameResults(winningTeam, winningTeamScore, losingTeam, losingTeamScore, isOvertime, isShootout) {
 

@@ -9,8 +9,6 @@
 </head>
 <body>
     <div ng-app="n15App" ng-controller="n15Controller">
-        {{createInitProgressGrid();}}
-        {{calculateStandings();}}
         <div id="standings">
             <table border="1">
                 <tr>
@@ -79,21 +77,21 @@
                     <td>{{x.date}}</td>
                     <td>
                         <span ng-show="awayTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)" class="highlight">
-                                {{teams[x.awayTeam - 1].teamName + " (" + teams[x.awayTeam - 1].teammates + ")"}}
+                                {{teams[x.awayTeamId - 1].teamName + " (" + teams[x.awayTeamId - 1].teammates + ")"}}
                         </span>
                         <span ng-show="!awayTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)">
-                                {{teams[x.awayTeam - 1].teamName + " (" + teams[x.awayTeam - 1].teammates + ")"}}
+                                {{teams[x.awayTeamId - 1].teamName + " (" + teams[x.awayTeamId - 1].teammates + ")"}}
                         </span>
                     </td>
                     <td>
                         <span ng-show="homeTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)" class="highlight">
-                                @{{teams[x.homeTeam - 1].teamName + " (" + teams[x.homeTeam - 1].teammates + ")"}}
+                                @{{teams[x.homeTeamId - 1].teamName + " (" + teams[x.homeTeamId - 1].teammates + ")"}}
                         </span>
                         <span ng-show="!homeTeamWon(x.finalScoreAwayTeam, x.finalScoreHomeTeam)">
-                                @{{teams[x.homeTeam - 1].teamName + " (" + teams[x.homeTeam - 1].teammates + ")"}}
+                                @{{teams[x.homeTeamId - 1].teamName + " (" + teams[x.homeTeamId - 1].teammates + ")"}}
                         </span>
                     </td>
-                    <td>{{formattedGameResult(x.finalScoreAwayTeam, x.finalScoreHomeTeam, x.OT, x.SO);}}</td>
+                    <td>{{formattedGameResult(x.finalScoreAwayTeam, x.finalScoreHomeTeam, x.hadOT, x.hadSO);}}</td>
                 </tr>
             </table>
         </div>
