@@ -8,6 +8,10 @@ app.controller('n15Controller', function ($scope, $http) {
                 $scope.gameResults = res.gameResults;
                 $scope.createInitProgressGrid();
                 $scope.calculateStandings();
+
+                var noTeams = $scope.teams.length;
+                $scope.totalGames = noTeams * noTeams - noTeams;
+                $scope.percentGamesPlayed = Math.round($scope.gameResults.length * 100 / $scope.totalGames);
             })
             .error(function (data, status, headers, config) {
                 console.log("error loading data");
@@ -110,11 +114,11 @@ app.controller('n15Controller', function ($scope, $http) {
 
     $scope.awayTeamWon = function(awayTeamScore, homeTeamScore) {
         return awayTeamScore > homeTeamScore;
-    }
+    };
 
     $scope.homeTeamWon = function(awayTeamScore, homeTeamScore) {
         return awayTeamScore < homeTeamScore;
-    }
+    };
 
     $scope.createInitProgressGrid = function()
     {
@@ -132,9 +136,8 @@ app.controller('n15Controller', function ($scope, $http) {
         $scope.progressGrid = grid;
     }
 
-    $scope.showProgress = function(awayTeam, homeTeam) {
-        var progressGrid = $scope.progressGrid;
-        return progressGrid[awayTeam - 1][homeTeam - 1];
-    }
+
+
+
 
 });

@@ -47,6 +47,8 @@
         </div>
         <br/>
         <div id="progress">
+            <div>Games Played: {{gameResults.length}} out of {{totalGames}} ({{percentGamesPlayed}}%) </div>
+            <br/>
             <table border="1" id="progressGrid">
                 <tr>
                     <td ng-repeat="x in teams" ng-class="{progressGridCell: true}">
@@ -56,7 +58,7 @@
                 </tr>
                 <tr ng-repeat="x in teams">
                     <td ng-repeat="y in teams" ng-class="{bg: $index==$parent.$index, progressGridCell: true}">
-                        {{showProgress(x.id, y.id);}}
+                        {{progressGrid[x.id - 1][y.id - 1]}}
                     </td>
                     <td>@{{x.city}}</td>
                 </tr>
