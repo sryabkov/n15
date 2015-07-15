@@ -11,24 +11,25 @@
 
   <% include ../partials/nav.ejs %>
 
-  <div ng-app="n15App" ng-controller="n15Controller">
+  <div ng-app="n15App" ng-controller="n15Controller"  class="container">
+
         <div id="standings">
-            <table border="1">
+            <table class="table table-bordered">
                 <tr>
-                    <td class="teamNoHeader">Team No</td>
-                    <td>Team Name</td>
-                    <td>Players</td>
-                    <td class="statDetailHeader">GP</td>
-                    <td class="statDetailHeader">W</td>
-                    <td class="statDetailHeader">RL</td>
-                    <td class="statDetailHeader">OSL</td>
-                    <td class="statDetailHeader">PTS</td>
-                    <td class="statDetailHeader">SW</td>
-                    <td class="statDetailHeader">SL</td>
-                    <td class="statDetailHeader">ROW</td>
-                    <td class="statDetailHeader">GF</td>
-                    <td class="statDetailHeader">GA</td>
-                    <td class="statDetailHeader">GDIFF</td>
+                    <th class="teamNoHeader">Team No</th>
+                    <th>Team Name</th>
+                    <th>Players</th>
+                    <th class="statDetailHeader">GP</th>
+                    <th class="statDetailHeader">W</th>
+                    <th class="statDetailHeader">RL</th>
+                    <th class="statDetailHeader">OSL</th>
+                    <th class="statDetailHeader">PTS</th>
+                    <th class="statDetailHeader">SW</th>
+                    <th class="statDetailHeader">SL</th>
+                    <th class="statDetailHeader">ROW</th>
+                    <th class="statDetailHeader">GF</th>
+                    <th class="statDetailHeader">GA</th>
+                    <th class="statDetailHeader">GDIFF</th>
                 </tr>
                 <tr ng-repeat="x in teams | orderBy: ['-points', 'gamesPlayed', '-regulationOvertimeWins','-goalDifferential']">
                     <td class="teamNo">{{x.id}}</td>
@@ -50,9 +51,8 @@
         </div>
         <br/>
         <div id="progress">
-            <div>Games Played: {{gameResults.length}} out of {{totalGames}} ({{percentGamesPlayed}}%) </div>
-            <br/>
-            <table border="1" id="progressGrid">
+            <h2 class="page-header">Games Played: {{gameResults.length}} out of {{totalGames}} ({{percentGamesPlayed}}%) </h2>
+            <table class="table table-bordered" id="progressGrid">
                 <tr>
                     <td ng-repeat="x in teams" ng-class="{progressGridCell: true}">
                         {{x.city}}
@@ -69,13 +69,13 @@
         </div>
         <br/>
         <div id="scores">
-            <table border="1">
+            <table class="table table-bordered">
                 <tr>
-                    <td>Game Id</td>
-                    <td>Game Date</td>
-                    <td>Visiting Team</td>
-                    <td>Home Team</td>
-                    <td>Result</td>
+                    <th>Game Id</th>
+                    <th>Game Date</th>
+                    <th>Visiting Team</th>
+                    <th>Home Team</th>
+                    <th>Result</th>
                 </tr>
                 <tr ng-repeat="x in gameResults">
                     <td>{{x.id}}</td>
