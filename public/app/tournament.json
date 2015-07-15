@@ -1,0 +1,28 @@
+{
+    "teams": [
+       {"id": 1, "city": "Anaheim", "teamName": "Anaheim Ducks", "teammates": "Arsen/Mladen"},
+       {"id": 2, "city": "Tampa", "teamName": "Tampa Bay Lightning", "teammates": "Sergei/Gabe"},
+       {"id": 3, "city": "Chicago", "teamName": "Chicago Blackhawks", "teammates": "Chad/Vlad"},
+       {"id": 4, "city": "Washington", "teamName": "Washington Capitals", "teammates": "Isaac/Mauro"},
+       {"id": 5, "city": "Montreal", "teamName": "Montreal Canadiens", "teammates": "Will/Ben Y "},
+       {"id": 6, "city": "St. Louis", "teamName": "St. Louis Blues", "teammates": "Vikas/Henry"},
+       {"id": 7, "city": "Dallas", "teamName": "Dallas Stars", "teammates": "Ben C/Bernardo"}
+    ],
+
+    "gameResults": [
+       {"id": 1, "date": "07/07/2015", "awayTeamId": 3, "homeTeamId": 6, "finalScoreAwayTeam": 1, "finalScoreHomeTeam": 3, "hadOT": false, "hadSO": false},
+       {"id": 2, "date": "07/07/2015", "awayTeamId": 6, "homeTeamId": 1, "finalScoreAwayTeam": 3, "finalScoreHomeTeam": 2, "hadOT": true, "hadSO": true},
+       {"id": 3, "date": "07/07/2015", "awayTeamId": 2, "homeTeamId": 6, "finalScoreAwayTeam": 1, "finalScoreHomeTeam": 0, "hadOT": false, "hadSO": false},
+       {"id": 4, "date": "07/07/2015", "awayTeamId": 5, "homeTeamId": 1, "finalScoreAwayTeam": 1, "finalScoreHomeTeam": 2, "hadOT": true, "hadSO": false},
+       {"id": 5, "date": "07/08/2015", "awayTeamId": 7, "homeTeamId": 4, "finalScoreAwayTeam": 0, "finalScoreHomeTeam": 1, "hadOT": false, "hadSO": false},
+       {"id": 6, "date": "07/08/2015", "awayTeamId": 1, "homeTeamId": 7, "finalScoreAwayTeam": 2, "finalScoreHomeTeam": 3, "hadOT": false, "hadSO": false},
+       {"id": 7, "date": "07/09/2015", "awayTeamId": 2, "homeTeamId": 3, "finalScoreAwayTeam": 1, "finalScoreHomeTeam": 0, "hadOT": false, "hadSO": false},
+       {"id": 8, "date": "07/09/2015", "awayTeamId": 2, "homeTeamId": 4, "finalScoreAwayTeam": 1, "finalScoreHomeTeam": 0, "hadOT": false, "hadSO": false},
+       {"id": 9, "date": "07/09/2015", "awayTeamId": 4, "homeTeamId": 7, "finalScoreAwayTeam": 0, "finalScoreHomeTeam": 2, "hadOT": false, "hadSO": false},
+       {"id": 10, "date": "07/09/2015", "awayTeamId": 7, "homeTeamId": 2, "finalScoreAwayTeam": 2, "finalScoreHomeTeam": 0, "hadOT": false, "hadSO": false},
+       {"id": 11, "date": "07/10/2015", "awayTeamId": 5, "homeTeamId": 4, "finalScoreAwayTeam": 3, "finalScoreHomeTeam": 2, "hadOT": true, "hadSO": true},
+       {"id": 12, "date": "07/14/2015", "awayTeamId": 2, "homeTeamId": 7, "finalScoreAwayTeam": 3, "finalScoreHomeTeam": 1, "hadOT": false, "hadSO": false},
+       {"id": 13, "date": "07/14/2015", "awayTeamId": 3, "homeTeamId": 7, "finalScoreAwayTeam": 0, "finalScoreHomeTeam": 2, "hadOT": false, "hadSO": false}
+
+    ]
+}
