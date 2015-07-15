@@ -1,36 +1,24 @@
-# node-js-getting-started
+#Project n15
 
-A barebones Node.js app using [Express 4](http://expressjs.com/).
+Heroku URL: https://n15.herokuapp.com/
 
-This application supports the [Getting Started with Node on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs) article - check it out.
+## Set-up
 
-## Running Locally
+__Requires node.js be installed. Use Homebrew to install node on a Mac.__
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+- clone the repo
+- cd into the local repo
+- run ```npm install``` to prepare install the necessary modules
+- run ```npm start`` to run the server
+- visit localhost:5000 to view the app
 
-```sh
-$ git clone git@github.com:heroku/node-js-getting-started.git # or clone your own fork
-$ cd node-js-getting-started
-$ npm install
-$ npm start
-```
+##Deploy
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Must get collaborator access on heroku. Sign up for an account and ask Bernardo to add you to the app once sign-up is complete.
 
-## Deploying to Heroku
+- commit changes and push to the master branch on heroku to deply
 
-```
-$ heroku create
-$ git push heroku master
-$ heroku open
-```
+##Coming soon
 
-## Documentation
-
-For more information about using Node.js on Heroku, see these Dev Center articles:
-
-- [Getting Started with Node.js on Heroku](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
-- [Heroku Node.js Support](https://devcenter.heroku.com/articles/nodejs-support)
-- [Node.js on Heroku](https://devcenter.heroku.com/categories/nodejs)
-- [Best Practices for Node.js Development](https://devcenter.heroku.com/articles/node-best-practices)
-- [Using WebSockets on Heroku with Node.js](https://devcenter.heroku.com/articles/node-websockets)
+- MongoDB datastore
+-A form to add games played
