@@ -5,12 +5,9 @@ var app = express();
 
 var mongoose   = require('mongoose');
 
-var uristring =
-process.env.MONGOLAB_URI ||
-process.env.MONGOHQ_URL ||
-'mongodb://localhost:27017/n15';
+var uristring = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/n15';
 
-mongoose.connect('mongodb://localhost'); // connect to our database
+// mongoose.connect('mongodb://localhost'); // connect to our database
 
 // Makes connection asynchronously.  Mongoose will queue up database
 // operations and release them when the connection is complete.
