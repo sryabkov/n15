@@ -7,8 +7,6 @@ var mongoose   = require('mongoose');
 
 var uristring = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/n15';
 
-// mongoose.connect('mongodb://localhost'); // connect to our database
-
 // Makes connection asynchronously.  Mongoose will queue up database
 // operations and release them when the connection is complete.
 mongoose.connect(uristring, function (err, res) {
@@ -100,7 +98,6 @@ router.route('/games')
     game.hadOT = req.body.hadOT;
     game.hadSO = req.body.hadSO;
 
-    console.log(req.body)
     game.save(function(err) {
       if(err)
         res.send(err);
