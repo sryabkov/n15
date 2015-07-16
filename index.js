@@ -21,6 +21,7 @@ mongoose.connect(uristring, function (err, res) {
 
 var Player = require('./models/players.js');
 var Team = require('./models/teams.js');
+var Game = require('./models/games.js');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -49,7 +50,7 @@ router.route('/players')
     player.firstname = req.body.firstname;
     player.lastname = req.body.lastname;
     player.email = req.body.email;
-    console.log(player)
+
     // save the player and check for errors
     player.save(function(err) {
       if (err)
@@ -84,6 +85,33 @@ router.route('/teams')
       if(err)
         res.send(err);
       res.json(team);
+    });
+  })
+
+router.route('/games')
+  .post(function(req, res) {
+    var game = new Game();
+    game.date = req.body.date;
+    game.id = req.body.id;
+    game.awayTeamId = req.body.awayTeamId;
+    game.homeTeamId = req.body.homeTeamId;
+    game.finalScoreAwayTeam = req.body.finalScoreAwayTeam;
+    game.finalScoreHomeTeam = req.body.finalScoreHomeTeam;
+    game.hadOT = req.body.hadOT;
+    game.hadSO = req.body.hadSO;
+
+    console.log(req.body)
+    game.save(function(err) {
+      if(err)
+        res.send(err);
+      res.json({message:"Game Saved"})
+    });
+  })
+  .get(function(req, res) {
+    Game.find(function(err, game) {
+      if(err)
+        res.send(err);
+      res.json(game);
     });
   })
 
