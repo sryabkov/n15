@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js"></script>
+  <script src="app/teams.js"></script>
+  <link rel="stylesheet" href="stylesheets/main.css">
+</head>
+
+<body ng-app="n15-teams">
+  <% include ../partials/nav.ejs %>
+  <div class="container">
+    <div class="page-header clearfix">
+      <h1 class="pull-left">Teams</h1>
+      <!-- <button class="btn btn-primary pull-right">Add Team</button> -->
+    </div>
+
+    <!-- Team Listing -->
+    <table class="table" ng-controller="teamController">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Team</th>
+          <th>City</th>
+          <th>Team Mates</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="team in teams">
+          <td>{{team.id}}</td>
+          <td>{{team.teamName}}</td>
+          <td>{{team.city}}</td>
+          <td>{{team.teammates}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- add form -->
+  </div>
+</body>
+</html>

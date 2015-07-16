@@ -35,8 +35,16 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 // home
-app.get('/', function(request, response) {
-  response.render('pages/index')
+app.get('/', function(req, res) {
+  res.render('pages/index')
+});
+
+app.get('/teams', function(req, res) {
+  res.render('pages/teams');
+});
+
+app.get('/games', function(req, res) {
+  res.render('pages/games');
 });
 
 // routes
@@ -69,6 +77,7 @@ router.route('/players')
 router.route('/teams')
   .post(function(req, res) {
     var team = new Team();
+    team.id = req.body.id;
     team.city = req.body.city;
     team.teamName = req.body.teamName;
     team.teammates = req.body.teammates;
