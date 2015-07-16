@@ -3,17 +3,46 @@
 <head>
   <% include ../partials/header.ejs %>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
-  <script src="app/n15.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js"></script>
+  <script src="app/games.js"></script>
   <link rel="stylesheet" href="stylesheets/main.css">
 </head>
 
-<body>
+<body ng-app="n15-games">
 
   <% include ../partials/nav.ejs %>
   <div class="container">
     <div class="page-header">
       <h1>Games</h1>
     </div>
+
+    <!-- Game Listing -->
+    <table class="table" ng-controller="gameController">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Date</th>
+          <th>Away Team</th>
+          <th>Home Team</th>
+          <th>Away Team Final Score</th>
+          <th>Home Team Finale Score</th>
+          <th>Had Overtime</th>
+          <th>Had Shootout</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="game in games">
+          <td>{{game.id}}</td>
+          <td>{{game.date}}</td>
+          <td>{{game.awayTeamId}}</td>
+          <td>{{game.homeTeamId}}</td>
+          <td>{{game.finalScoreAwayTeam}}</td>
+          <td>{{game.finalScoreHomeTeam}}</td>
+          <td>{{game.hadOT}}</td>
+          <td>{{game.hadSO}}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 </body>
