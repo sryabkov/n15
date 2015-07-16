@@ -5,6 +5,7 @@ var app = angular.module('n15App', [
 
 app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope, $http) {
 
+  // Comment here to stop using DB
   $scope.teams = TeamsService.query();
   $scope.gameResults = GamesService.query();
 
@@ -14,6 +15,7 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
     calculateStandings();
   });
 
+  // Uncomment here to return to file data
   // $http.get('app/tournament.json')
   //     .success(function(res) {
   //       $scope.teams = res.teams;
