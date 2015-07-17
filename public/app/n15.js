@@ -11,8 +11,11 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
 
   $q.all([$scope.teams.$promise, $scope.gameResults.$promise])
   .then(function() {
+    var noTeams = $scope.teams.length;
     createInitProgressGrid();
     calculateStandings();
+    $scope.totalGames = noTeams * noTeams - noTeams;
+    $scope.percentGamesPlayed = Math.round($scope.gameResults.length * 100 / $scope.totalGames);
   });
 
   // Uncomment here to return to file data
@@ -23,9 +26,7 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
   //       $scope.createInitProgressGrid();
   //       $scope.calculateStandings();
 
-  //       var noTeams = $scope.teams.length;
-  //       $scope.totalGames = noTeams * noTeams - noTeams;
-  //       $scope.percentGamesPlayed = Math.round($scope.gameResults.length * 100 / $scope.totalGames);
+
   //     })
   //     .error(function (data, status, headers, config) {
   //       console.log("error loading data");
@@ -117,8 +118,7 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
 
     if(isShootout) {
       ot_so = 'SO';
-    }
-    else if(isOvertime) {
+    } else if(isOvertime) {
       ot_so = 'OT';
     }
 
