@@ -10,7 +10,7 @@ th, td {
     font-weight: bold;
 }
 
-td.bg { background-color: black; }
+
 
 td.progressGridCell {
     width: 75px;
@@ -21,3 +21,4 @@ td.progressGridCell {
     text-align: center;
 }
 */
+.bg { background-color: black; }

@@ -58,7 +58,7 @@
             <table class="table table-bordered" id="progressGrid">
                 <tr>
                     <td ng-repeat="x in teams" ng-class="{progressGridCell: true}">
-                        {{x.city}}
+                        <b>{{x.city}}</b>
                     </td>
                     <td></td>
                 </tr>
@@ -66,7 +66,9 @@
                     <td ng-repeat="y in teams" ng-class="{bg: $index==$parent.$index, progressGridCell: true}">
                         {{progressGrid[x.id - 1][y.id - 1]}}
                     </td>
-                    <td>@{{x.city}}</td>
+                    <td>
+                        <b>@{{x.city}}</b>
+                    </td>
                 </tr>
             </table>
         </div>
