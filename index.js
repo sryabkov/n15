@@ -47,6 +47,16 @@ app.get('/games', function(req, res) {
   res.render('pages/games');
 });
 
+app.get('/new', function(req, res) {
+  Game.find(function (err, games) {
+     console.log(games.length);
+     gameID =  games.length
+  });
+  res.render('pages/new', {
+    gameID: gameID+1
+  });
+});
+
 // routes
 var router = express.Router();
 

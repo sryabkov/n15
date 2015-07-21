@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular-resource.js"></script>
+  <script src="app/teams.js"></script>
+  <link rel="stylesheet" href="stylesheets/main.css">
+</head>
+
+<body ng-app="n15-teams">
+  <% include ../partials/nav.ejs %>
+  <div class="container">
+    <div class="page-header clearfix">
+      <h1 class="pull-left">Add Game #<%= gameID %></h1>
+      <!-- <button class="btn btn-primary pull-right">Add Team</button> -->
+    </div>
+
+    <!-- add form -->
+    <form action="/api/games">
+      <div class="row">
+        <div class="form-group col-sm-2">
+          <label for="">Home Team</label><br />
+          <select name="homeTeam" id=""></select>
+        </div>
+        <div class="form-group col-sm-2">
+          <label for="">Final Score</label><br />
+          <input type="number">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-sm-2">
+          <label for="">Away Team</label><br />
+          <select name="awayTeam" id=""></select>
+        </div>
+        <div class="form-group col-sm-2">
+          <label for="">Final Score</label><br />
+          <input type="number">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="checkbox">
+            <label for="hadOT">
+              <input id="hadOT" type="checkbox"> Had Overtime
+            </label>
+          </div>
+          <div class="checkbox">
+            <label for="hadSO">
+              <input id="hadSO" type="checkbox"> Had Shootout
+            </label>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <button class="btn btn-primary">Add Game</button>
+    </form>
+  </div>
+  <script>
+    var gameID = <%= gameID %>;
+  </script>
+</body>
+</html>
