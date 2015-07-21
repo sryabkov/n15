@@ -49,11 +49,10 @@ app.get('/games', function(req, res) {
 
 app.get('/new', function(req, res) {
   Game.find(function (err, games) {
-     console.log(games.length);
      gameID =  games.length
   });
   res.render('pages/new', {
-    gameID: gameID+1
+    gameID: gameID
   });
 });
 

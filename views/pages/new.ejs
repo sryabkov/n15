@@ -15,6 +15,10 @@
 
     <!-- add form -->
     <form action="/api/games" id="addGame">
+      <div class="form-group">
+        <label for="">Date:</label>
+        <input type="date" id="gameDate" required>
+      </div>
       <div class="row">
         <div class="form-group col-sm-2">
           <label for="">Home Team</label><br />
@@ -79,24 +83,25 @@
       var $form = $(this)
       var game = {
         id: gameID,
-        homeTeam: $('#homeTeam').val(),
+        date: $('#gameDate').val(),
+        homeTeamId: $('#homeTeam').val(),
         finalScoreHomeTeam: Number($('#finalScoreHomeTeam').val()),
-        awayTeam: $('#awayTeam').val(),
+        awayTeamId: $('#awayTeam').val(),
         finalScoreAwayTeam: Number($('#finalScoreAwayTeam').val()),
         hadOT: $('#hadOT').prop('checked'),
         hadSO: $('#hadSO').prop('checked')
       };
+      console.log(game);
       var ajaxOptions = {
         url: $form.attr('action'),
         method: 'POST',
         data: game
       }
       $.ajax(ajaxOptions).done(function(data) {
-        if(data.message === "game saved") {
-          // does nothing
-
+        if(data.message === "Game Saved") {
+          alert(data.message);
         } else {
-          // does nothing
+          alert(data.message);
 
         }
       });
