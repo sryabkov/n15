@@ -80,10 +80,15 @@
     var gameID = <%= gameID %>;
     $('#addGame').on('submit', function(e) {
       e.preventDefault();
-      var $form = $(this)
+      var $form = $(this);
+
+      function dateTransform(gameDate) {
+        var d = gameDate.split('-');
+        return [d[1],d[2],d[0]].join('/');
+      }
       var game = {
         id: gameID,
-        date: $('#gameDate').val(),
+        date: dateTransform( $('#gameDate').val() ),
         homeTeamId: $('#homeTeam').val(),
         finalScoreHomeTeam: Number($('#finalScoreHomeTeam').val()),
         awayTeamId: $('#awayTeam').val(),
@@ -91,22 +96,21 @@
         hadOT: $('#hadOT').prop('checked'),
         hadSO: $('#hadSO').prop('checked')
       };
-      console.log(game);
       var ajaxOptions = {
         url: $form.attr('action'),
         method: 'POST',
         data: game
       }
+
       $.ajax(ajaxOptions).done(function(data) {
         if(data.message === "Game Saved") {
-          alert(data.message);
+          window.location = '/';
         } else {
           alert(data.message);
-
         }
       });
-      // console.log($form, game);
-    })
+
+    });
   </script>
 </body>
 </html>
