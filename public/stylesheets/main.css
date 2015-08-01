@@ -1,1 +1,5 @@
 .bg { background-color: black; }
+
+.highlight {
+  font-weight: bold;
+}
