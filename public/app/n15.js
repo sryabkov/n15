@@ -32,18 +32,22 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
   //       console.log("error loading data");
   //     });
 
-  $scope.addingGame = false;
-  $scope.addNewGame = function() {
-    $scope.addingGame = true;
-  }
-  $scope.newGameData = {};
-  $scope.addGame = function(game) {
-    GamesService.save($scope.newGameData)
-  }
+//  $scope.addingGame = false;
+//
+//  $scope.addNewGame = function() {
+//    $scope.addingGame = true;
+//  }
+//
+//  $scope.newGameData = {};
+//
+//  $scope.addGame = function(game) {
+//    GamesService.save($scope.newGameData)
+//  }
 
   $scope.progressGrid = [];
 
   $scope.calculateStandings = calculateStandings;
+
   function calculateStandings() {
     var teams = $scope.teams;
 
@@ -145,6 +149,7 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
   };
 
   $scope.createInitProgressGrid = createInitProgressGrid;
+
   function createInitProgressGrid() {
     var numberOfTeams = $scope.teams.length;
     var grid = $scope.progressGrid;

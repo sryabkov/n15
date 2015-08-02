@@ -9,24 +9,25 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular-route.js"></script>
   <script src="app/teams/teams.js"></script>
   <script src="app/games/games.js"></script>
+  <script src="app/stats/stats.js"></script>
   <script src="app/app.js"></script>
 </head>
 
 <body ng-app="n15">
-  <nav class="navbar navbar-default navbar-static-top navbar-inverse" ng-controller="navController">
+  <nav class="navbar navbar-default navbar-static-top navbar-inverse" ng-controller="navController as ctrl">
     <div class="container-fluid">
       <ul class="nav navbar-nav">
         <li>
           <a href="/n15#/"><span class="glyphicon glyphicon-home"></span> N15</a>
         </li>
-        <li ng-repeat="item in navigation">
-          <a href="#/{{ item }}">{{ item }}</a>
+        <li ng-repeat="item in ctrl.navigation">
+          <a ng-href="#/{{ item.url }}">{{ item.label }}</a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <div class="container-fluid" ng-controller="mainController" ng-view></div>
+  <div class="container-fluid" ng-view></div>
 
 </body>
 </html>

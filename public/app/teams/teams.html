@@ -1,22 +1,23 @@
 <!-- Teams -->
-<div ng-controller="teamsController as ctrl">
-  <h3>Teams</h3>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Team</th>
-      <th>City</th>
-      <th>Tea Mates</th>
-      <th>ID</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="team in ctrl.teams">
-      <td>{{team.teamName}}</td>
-      <td>{{team.city}}</td>
-      <td>{{team.teammates}}</td>
-      <td>{{team.id}}</td>
-    </tr>
-    </tbody>
-  </table>
+<div class="page-header">
+  <h2>Teams</h2>
 </div>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Team</th>
+    <th>City</th>
+    <th>Team Mates</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="team in ctrl.teams">
+    <td>{{team.id}}</td>
+    <td>{{team.teamName}}</td>
+    <td>{{team.city}}</td>
+    <td>{{team.teammates}}</td>
+  </tr>
+  </tbody>
+</table>

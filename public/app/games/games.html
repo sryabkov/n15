@@ -1,13 +1,25 @@
 <!-- Games-->
-<div ng-controller="gamesController as ctrl">
-  <ul>
-    <li ng-repeat="game in ctrl.games">
-      <h3>{{ ctrl.getName(game.awayTeamId) }} {{ game.finalScoreHomeTeam }} at {{ ctrl.getName(game.homeTeamId) }} {{ game.finalScoreAwayTeam }}</h3>
-
-      <p>{{ game.date }} {{ game.id }}</p>
-
-      <p>{{ game.hadOT }} {{ game.hadSO}}</p>
-
-    </li>
-  </ul>
+<div class="page-header">
+  <h2>Games</h2>
 </div>
+
+<table class="table">
+  <thead>
+    <th>Game #</th>
+    <th>Game Date</th>
+    <th>Visting Team</th>
+    <th>Home Team</th>
+    <th>Result</th>
+  </thead>
+  <tr ng-repeat="game in ctrl.games | orderBy: '-id'">
+    <td>{{ game.id}}</td>
+    <td>{{ game.date }}</td>
+    <td ng-class="{highlight: game.finalScoreAwayTeam > game.finalScoreHomeTeam}">{{ ctrl.getTeamName(game.awayTeamId) }}</td>
+    <td ng-class="{highlight: game.finalScoreHomeTeam > game.finalScoreAwayTeam}">{{ ctrl.getTeamName(game.homeTeamId)}}</td>
+    <td>
+      {{ game.finalScoreAwayTeam}} - {{ game.finalScoreHomeTeam}}
+      <span ng-show="game.hadOT && !game.hadSO">OT</span>
+      <span ng-show="game.hadSO">SO</span>
+    </td>
+  </tr>
+</table>

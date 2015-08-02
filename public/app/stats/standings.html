@@ -1,0 +1,65 @@
+<div class="page-header clearfix">
+
+  <h2 class="pull-left">{{ ctrl.title }}</h2>
+
+</div>
+<!-- Standings -->
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Team No</th>
+      <th>Team Name</th>
+      <th>Players</th>
+      <th>GP</th>
+      <th>W</th>
+      <th>RL</th>
+      <th>OSL</th>
+      <th>PTS</th>
+      <th>SW</th>
+      <th>SL</th>
+      <th>ROW</th>
+      <th>GF</th>
+      <th>GA</th>
+      <th>GDIFF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="team in ctrl.teams | orderBy: ['-points', 'gamesPlayed', '-regulationOvertimeWins','-goalDifferential']">
+      <td class="teamNo">{{team.id}}</td>
+      <td>{{team.teamName}}</td>
+      <td>{{team.teammates}}</td>
+      <td class="statDetail">{{team.gamesPlayed}}</td>
+      <td class="statDetail">{{team.wins}}</td>
+      <td class="statDetail">{{team.regulationLosses}}</td>
+      <td class="statDetail">{{team.overtimeShootoutLosses}}</td>
+      <td class="statDetail">{{team.points}}</td>
+      <td class="statDetail">{{team.shootoutWins}}</td>
+      <td class="statDetail">{{team.shootoutLosses}}</td>
+      <td class="statDetail">{{team.regulationOvertimeWins}}</td>
+      <td class="statDetail">{{team.goalsFor}}</td>
+      <td class="statDetail">{{team.goalsAgainst}}</td>
+      <td class="statDetail">{{team.goalDifferential}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Progress Grid -->
+<h3 class="">Games Played: {{ ctrl.percentGamesPlayed }}%</h3>
+<table class="table table-bordered">
+  <tr>
+    <th ng-repeat="team in ctrl.teams">
+      {{team.city}}
+    </th>
+    <th>&nbsp;</th>
+  </tr>
+  <tr ng-repeat="team in ctrl.teams">
+    <td ng-repeat="team in ctrl.teams" ng-class="{bg: $index==$parent.$index}">
+      scores
+    </td>
+    <th>
+      @{{team.city}}
+    </th>
+  </tr>
+</table>
+
+<!-- Scores -->

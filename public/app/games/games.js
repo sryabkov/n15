@@ -3,21 +3,16 @@ angular.module('Games', ['ngResource'])
     return $resource('/api/games', {game: '@game'});
   }])
   .controller('gamesController', ['GameService','TeamService', function (GameService, TeamService) {
+
     var self = this;
     self.games = GameService.query();
     self.teams = TeamService.query();
 
-
-
-    self.getName = function(id) {
-      var name = _.find(self.teams, function(team) {
-//        console.log(id, team)
-        if(team.id === id ) {
-          return team.teamName;
-        }
-      });
-//      console.log('n:',id, name);
-      return 'yes'
+    // convert teams id to team name
+    self.getTeamName = function(id) {
+      return self.teams[id-1  ].teamName
     }
-//    console.log(self.games, self.teams)
+    self.highlight = function() {
+
+    }
   }]);
