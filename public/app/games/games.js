@@ -12,7 +12,4 @@ angular.module('Games', ['ngResource'])
     self.getTeamName = function(id) {
       return self.teams[id-1  ].teamName
     }
-    self.highlight = function() {
-
-    }
   }]);
