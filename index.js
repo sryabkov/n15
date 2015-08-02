@@ -38,6 +38,10 @@ app.set('view engine', 'ejs');
 app.get('/', function(req, res) {
   res.render('pages/index')
 });
+// new home
+app.get('/n15', function(req, res) {
+  res.render('pages/n15')
+});
 
 app.get('/teams', function(req, res) {
   res.render('pages/teams');

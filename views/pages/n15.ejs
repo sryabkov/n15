@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+  <link rel="stylesheet" href="stylesheets/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular-resource.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.3/angular-route.js"></script>
+  <script src="app/teams/teams.js"></script>
+  <script src="app/games/games.js"></script>
+  <script src="app/app.js"></script>
+</head>
+
+<body ng-app="n15">
+  <nav class="navbar navbar-default navbar-static-top navbar-inverse" ng-controller="navController">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="/n15#/"><span class="glyphicon glyphicon-home"></span> N15</a>
+        </li>
+        <li ng-repeat="item in navigation">
+          <a href="#/{{ item }}">{{ item }}</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid" ng-controller="mainController" ng-view></div>
+
+</body>
+</html>

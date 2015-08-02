@@ -1,0 +1,13 @@
+<!-- Games-->
+<div ng-controller="gamesController as ctrl">
+  <ul>
+    <li ng-repeat="game in ctrl.games">
+      <h3>{{ ctrl.getName(game.awayTeamId) }} {{ game.finalScoreHomeTeam }} at {{ ctrl.getName(game.homeTeamId) }} {{ game.finalScoreAwayTeam }}</h3>
+
+      <p>{{ game.date }} {{ game.id }}</p>
+
+      <p>{{ game.hadOT }} {{ game.hadSO}}</p>
+
+    </li>
+  </ul>
+</div>
