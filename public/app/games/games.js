@@ -25,18 +25,16 @@ angular.module('Games', ['ngResource'])
 
     self.addGame = function() {
       self.newGame.id = self.games.length + 1;
-      console.log(self.newGame.date);
       self.newGame.date = dateTransform(self.newGame.date);
-      console.log(self.newGame);
-      // self.newGame = GameService.save(self.newGame, function() {
-      //   self.games = GameService.query();
-      // });
+      self.newGame = GameService.save(self.newGame, function() {
+        self.games = GameService.query();
+      });
     }
 
     function dateTransform(gameDate) {
-      console.log(gameDate);
-      var d = [gameDate.getMonth(),gameDate.getDay(), gameDate.getYear()];
+      var d = [gameDate.getMonth(),gameDate.getDate(), gameDate.getFullYear()];
       return d.join('/');
+      // return gameDate.toLocaleDateString();
     }
 
   }]);

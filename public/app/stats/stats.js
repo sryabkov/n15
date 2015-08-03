@@ -26,6 +26,10 @@ angular.module('Stats', ['Teams', 'Games'])
       });
     }
 
+    self.reload = function() {
+      self.teams = TeamService.query();
+    }
+
     $q.all([self.games.$promise, self.teams.$promise])
       .then(function () {
 
