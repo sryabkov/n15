@@ -5,7 +5,6 @@ var app = angular.module('n15App', [
 
 app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope, $http) {
 
-  // Comment here to stop using DB
   $scope.teams = TeamsService.query();
   $scope.gameResults = GamesService.query();
 
@@ -18,35 +17,11 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
     $scope.percentGamesPlayed = Math.round($scope.gameResults.length * 100 / $scope.totalGames);
   });
 
-  // Uncomment here to return to file data
-  // $http.get('app/tournament.json')
-  //     .success(function(res) {
-  //       $scope.teams = res.teams;
-  //       $scope.gameResults = res.gameResults;
-  //       $scope.createInitProgressGrid();
-  //       $scope.calculateStandings();
-
-
-  //     })
-  //     .error(function (data, status, headers, config) {
-  //       console.log("error loading data");
-  //     });
-
-//  $scope.addingGame = false;
-//
-//  $scope.addNewGame = function() {
-//    $scope.addingGame = true;
-//  }
-//
-//  $scope.newGameData = {};
-//
-//  $scope.addGame = function(game) {
-//    GamesService.save($scope.newGameData)
-//  }
-
   $scope.progressGrid = [];
 
   $scope.calculateStandings = calculateStandings;
+
+  $scope.createInitProgressGrid = createInitProgressGrid;
 
   function calculateStandings() {
     var teams = $scope.teams;
@@ -147,8 +122,6 @@ app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope
   $scope.homeTeamWon = function(awayTeamScore, homeTeamScore) {
     return awayTeamScore < homeTeamScore;
   };
-
-  $scope.createInitProgressGrid = createInitProgressGrid;
 
   function createInitProgressGrid() {
     var numberOfTeams = $scope.teams.length;

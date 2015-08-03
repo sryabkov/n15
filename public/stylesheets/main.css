@@ -1,4 +1,4 @@
-.bg { background-color: black; }
+.bg { background-color: #000; }
 
 .highlight {
   font-weight: bold;
@@ -18,4 +18,12 @@
 
 .navbar {
   margin-bottom: 0;
+}
+
+.form-control-auto {
+  width: auto;
+}
+
+form {
+  padding-bottom: 40px;
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
   <% include ../partials/header.ejs %>
   <link rel="stylesheet" href="stylesheets/main.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -15,15 +16,24 @@
 
 <body ng-app="n15">
   <nav class="navbar navbar-default navbar-static-top navbar-inverse" ng-controller="navController as ctrl">
+
     <div class="container-fluid">
-      <ul class="nav navbar-nav">
-        <li>
-          <a href="/n15#/"><span class="glyphicon glyphicon-home"></span> N15</a>
-        </li>
-        <li ng-repeat="item in ctrl.navigation">
-          <a ng-href="#/{{ item.url }}">{{ item.label }}</a>
-        </li>
-      </ul>
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#n15-nav" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="/n15#/" class="navbar-brand"><span class="glyphicon glyphicon-home"></span> N15</a>
+      </div>
+      <div class="collapse navbar-collapse" id="n15-nav">
+        <ul class="nav navbar-nav">
+          <li ng-repeat="item in ctrl.navigation">
+            <a ng-href="#/{{ item.url }}">{{ item.label }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 

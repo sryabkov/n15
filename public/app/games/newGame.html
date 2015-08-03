@@ -1,13 +1,61 @@
 <div class="page-header">
-  <h2>Add Game</h2>
+  <h2>Add Game #{{ ctrl.games.length + 1 }}</h2>
 </div>
-<form>
-  <div class="form-group">
-    <label for="">Away Team</label>
-    <select name="" id=""></select>
+<div class="alert alert-success" ng-show="ctrl.newGame.message">
+  {{ ctrl.newGame.message }}
+</div>
+<form class="container-fluid" ng-submit="ctrl.addGame()">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <label for="">Game Date:</label>
+      <input type="date" ng-model="ctrl.newGame.date"  class="form-control form-control-auto">
+    </div>
   </div>
-  <div class="form-group">
-    <label for="">Home Team</label>
-    <select name="" id=""></select>
+  <div class="row">
+    <div class="form-group col-sm-6">
+      <h3>
+        <label for="">Away Team</label>
+      </h3>
+      <select ng-model="ctrl.newGame.awayTeamId" class="form-control" >
+        <option value=""></option>
+        <option ng-repeat="team in ctrl.teamSelect" value="{{ team.id }}">{{ team.label }}</option>
+      </select>
+      <br><p>
+        <label for="">Final Score</label>
+        <input type="number" class="form-control form-control-auto" ng-model="ctrl.newGame.finalScoreAwayTeam" >
+
+      </p>
+    </div>
+    <div class="form-group col-sm-6">
+      <h3>
+        <label for="">Home Team</label>
+      </h3>
+      <select ng-model="ctrl.newGame.homeTeamId" class="form-control" >
+        <option value=""></option>
+        <option ng-repeat="team in ctrl.teamSelect" value="{{ team.id }}">{{ team.label }}</option>
+      </select>
+      <br><p>
+        <label for="">Final Score</label>
+        <input type="number" class="form-control form-control-auto" ng-model="ctrl.newGame.finalScoreHomeTeam" >
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <hr />
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="ctrl.newGame.hadOT"> OverTime</label>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox"ng-model="ctrl.newGame.hadSO" ng-disabled="!ctrl.newGame.hadOT"> Shootout</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <hr>
+      <button class="btn btn-primary">Add Game</button>
+    </div>
   </div>
 </form>

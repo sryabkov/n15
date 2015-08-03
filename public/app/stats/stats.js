@@ -1,40 +1,16 @@
 angular.module('Stats', ['Teams', 'Games'])
-  .controller('statsController', function (TeamService, GameService, StatsCalculatorService, $q) {
-    console.log('Stats');
+  .controller('statsController', function (TeamService, GameService, StatsCalculator, ProgressGrid, $q) {
 
-    var self = this;
+    var self = this,
+        initTeams;
+
     self.title = 'Standings';
 
-    var progressGrid = [],
-        initProgressGrid,
-        initTeams,
-        calculateStandings,
-        gameResults,
-        formattedGameResults,
-        numberOfTeams,
-        totalGames,
-        percentGamesPlayed,
-        homeTeamWon,
-        awayTeamWon;
+    self.games = GameService.query();
+    self.teams = TeamService.query();
 
-    var games = GameService.query(),
-        teams = TeamService.query();
-
-    $q.all([games.$promise, teams.$promise])
-      .then(function () {
-
-        numberOfTeams = teams.length;
-        totalGames = numberOfTeams * numberOfTeams - numberOfTeams;
-        percentGamesPlayed = Math.round( games.length * 100 / totalGames );
-        console.log('n:',numberOfTeams, totalGames, percentGamesPlayed, teams)
-
-        initTeams();
-
-      });
-
-    initTeams = function() {
-      console.log('initTeams');
-      // extend teams with defaults
+     // extend teams with defaults
+    initTeams = function(teams) {
       angular.forEach(teams, function(team) {
         team.gamesPlayed = 0;
         team.wins = 0;
@@ -50,42 +26,110 @@ angular.module('Stats', ['Teams', 'Games'])
       });
     }
 
-    self.teams = teams;
+    $q.all([self.games.$promise, self.teams.$promise])
+      .then(function () {
 
-    // function calculateStandings(teams, games) {
-    //   console.log('calcStandings', teams, games);
-    //   initTeams();
+        self.numberOfTeams = self.teams.length;
+        self.gamesPlayed = self.games.length;
+        self.totalGames = self.numberOfTeams * self.numberOfTeams - self.numberOfTeams;
+        self.percentGamesPlayed = Math.round( self.games.length * 100 / self.totalGames );
 
-    //   // determine winner
-    //   var winner = function(homeTeamScore, awayTeamScore) {
-    //     if( awayTeamScore > homeTeamScore ) {
-    //       return 'away'
-    //     } else if(awayTeamScore < homeTeamScore) {
-    //       return 'home'
-    //     }
-    //   }
+        self.progressGrid = ProgressGrid.init(self.numberOfTeams);
+        initTeams(self.teams);
 
-    // }
-
-    // initProgressGrid = function(numberOfTeams) {
-    //   console.log('initGrid');
-
-    // }
+        self.calculatedStanding = StatsCalculator.calculateStandings(self.games, self.teams, self.progressGrid);
+      });
 
   })
-  .factory('StatsCalculatorService', function() {
-    console.log('calc');
+
+  .factory('StatsCalculator', function() {
     var calc = {
-      init: function() {
+      calculateStandings: function(games, teams, progressGrid) {
 
-      },
-      calculateStandings: function() {
+        angular.forEach(games, function(game) {
+          var homeTeam = teams[game.homeTeamId - 1],
+              awayTeam = teams[game.awayTeamId - 1]
+              gameResult = {};
 
+          if( game.finalScoreAwayTeam > game.finalScoreHomeTeam ) {
+            gameResult.winningTeam = awayTeam;
+            gameResult.winningTeamScore = game.finalScoreAwayTeam;
+            gameResult.losingTeam = homeTeam;
+            gameResult.losingTeamScore = game.finalScoreHomeTeam;
+            gameResult.isOvertime = game.hadOT;
+            gameResult.isShootout = game.hadSO;
+
+          } else if ( game.finalScoreAwayTeam < game.finalScoreHomeTeam ) {
+            gameResult.winningTeam = homeTeam;
+            gameResult.winningTeamScore = game.finalScoreHomeTeam;
+            gameResult.losingTeam = awayTeam;
+            gameResult.losingTeamScore = game.finalScoreAwayTeam;
+            gameResult.isOvertime = game.hadOT;
+            gameResult.isShootout = game.hadSO;
+          }
+          calc.recordGameResults(gameResult);
+          var formattedResult = game.finalScoreAwayTeam + "-" + game.finalScoreHomeTeam + " ";
+          formattedResult += game.hadOT ? (game.hadSO ? 'SO' : 'OT') : '';
+          progressGrid[homeTeam.id - 1][awayTeam.id - 1] = formattedResult;
+        })
       },
-      recordGameResults: function() {
+      recordGameResults: function(gameResult) {
+
+        var winningTeam = gameResult.winningTeam,
+            losingTeam = gameResult.losingTeam,
+            winningTeamScore = gameResult.winningTeamScore,
+            losingTeamScore = gameResult.losingTeamScore,
+            isOvertime = gameResult.isOvertime,
+            isShootout = gameResult.isShootout;
+
+          winningTeam.wins++;
+          winningTeam.points += 2;
+          losingTeam.regulationLosses++;
+
+          if( isShootout ) {
+            winningTeam.shootoutWins++;
+            losingTeam.shootoutLoses++;
+            losingTeam.overtimeShootoutLosses++;
+            losingTeam.points += 1;
+          }
+          if( isOvertime ) {
+            losingTeam.overtimeShootoutLosses++;
+            losingTeam.points += 1;
+          }
+
+          winningTeam.gamesPlayed++;
+          winningTeam.goalsFor += winningTeamScore;
+          winningTeam.goalsAgainst += losingTeamScore;
+          // console.log('w',winningTeam.goalsFor - winningTeam.goalsAgainst);
+          winningTeam.goalDifferential = winningTeam.goalsFor - winningTeam.goalsAgainst;
+
+          losingTeam.gamesPlayed++;
+          losingTeam.goalsFor += losingTeamScore;
+          losingTeam.goalsAgainst += winningTeamScore;
+          // console.log('l:', losingTeam.goalsFor - losingTeam.goalsAgainst);
+          losingTeam.goalDifferential = losingTeam.goalsFor - losingTeam.goalsAgains;
+
+          winningTeam.regulationOvertimeWins = winningTeam.wins - winningTeam.shootoutWins;
+          losingTeam.regulationOvertimeWins = losingTeam.wins - losingTeam.shootoutWins;
 
       }
     }
 
   return calc;
+
+  })
+  .factory('ProgressGrid', function() {
+    var grid = {
+      init: function(numberOfTeams) {
+        var g = new Array(numberOfTeams)
+        for(var i = 0; i < numberOfTeams; i++) {
+          g[i] = new Array(numberOfTeams);
+          for(var j = 0; j < numberOfTeams; j++) {
+            g[i][j] = "";
+          }
+        }
+        return g;
+      }
+    }
+    return grid;
   });

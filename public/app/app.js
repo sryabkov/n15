@@ -32,11 +32,7 @@ angular.module('n15', ['ngRoute','Teams', 'Games', 'Stats'])
       {
         url: 'new',
         label: 'Add Game'
-      },
-      {
-        url: 'teams',
-        label: 'Teams'
-      },
+      }
     ];
 
   });
