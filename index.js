@@ -35,11 +35,11 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 // home
-app.get('/', function(req, res) {
-  res.render('pages/index')
-});
+// app.get('/', function(req, res) {
+//   res.render('pages/index')
+// });
 // new home
-app.get('/n15', function(req, res) {
+app.get('/', function(req, res) {
   res.render('pages/n15')
 });
 

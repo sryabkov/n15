@@ -13,7 +13,6 @@ angular.module('Games', ['ngResource'])
         self.teamSelect = _.map(self.teams, function(team) {
           return { id: team.id, label: team.teamName}
         })
-        // console.log(self.teams, self.teamSelect)
       });
 
     // convert teams id to team name
@@ -34,7 +33,6 @@ angular.module('Games', ['ngResource'])
     function dateTransform(gameDate) {
       var d = [gameDate.getMonth(),gameDate.getDate(), gameDate.getFullYear()];
       return d.join('/');
-      // return gameDate.toLocaleDateString();
     }
 
   }]);

@@ -1,5 +1,5 @@
 angular.module('Stats', ['Teams', 'Games'])
-  .controller('statsController', function (TeamService, GameService, StatsCalculator, ProgressGrid, $q) {
+  .controller('statsController', function (TeamService, GameService, StatsCalculator, ProgressGrid, $q, $scope) {
 
     var self = this,
         initTeams;
@@ -26,9 +26,9 @@ angular.module('Stats', ['Teams', 'Games'])
       });
     }
 
-    self.reload = function() {
-      self.teams = TeamService.query();
-    }
+    $scope.$watch('ctrl.games', function() {
+      self.calculatedStanding = StatsCalculator.calculateStandings(self.games, self.teams, self.progressGrid);
+    })
 
     $q.all([self.games.$promise, self.teams.$promise])
       .then(function () {
@@ -76,6 +76,10 @@ angular.module('Stats', ['Teams', 'Games'])
           formattedResult += game.hadOT ? (game.hadSO ? 'SO' : 'OT') : '';
           progressGrid[homeTeam.id - 1][awayTeam.id - 1] = formattedResult;
         })
+
+        angular.forEach(teams, function (team) {
+          team.goalDifferential = team.goalsFor - team.goalsAgainst
+        })
       },
       recordGameResults: function(gameResult) {
 
@@ -104,14 +108,10 @@ angular.module('Stats', ['Teams', 'Games'])
           winningTeam.gamesPlayed++;
           winningTeam.goalsFor += winningTeamScore;
           winningTeam.goalsAgainst += losingTeamScore;
-          // console.log('w',winningTeam.goalsFor - winningTeam.goalsAgainst);
-          winningTeam.goalDifferential = winningTeam.goalsFor - winningTeam.goalsAgainst;
 
           losingTeam.gamesPlayed++;
           losingTeam.goalsFor += losingTeamScore;
           losingTeam.goalsAgainst += winningTeamScore;
-          // console.log('l:', losingTeam.goalsFor - losingTeam.goalsAgainst);
-          losingTeam.goalDifferential = losingTeam.goalsFor - losingTeam.goalsAgains;
 
           winningTeam.regulationOvertimeWins = winningTeam.wins - winningTeam.shootoutWins;
           losingTeam.regulationOvertimeWins = losingTeam.wins - losingTeam.shootoutWins;
