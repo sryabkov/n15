@@ -88,13 +88,13 @@ angular.module('Stats', ['Teams', 'Games'])
             team.goalDifferential = team.goalsFor - team.goalsAgainst
             team.gamesPlayed = team.wins + team.regulationLosses + team.overtimeShootoutLosses
             team.regulationOvertimeWins = team.wins - team.shootoutWins
+            team.points = team.wins * 2 + team.overtimeShootoutLosses * 1 + team.regulationLosses * 0
           });
 
         },
         recordGameResults: function(winner, loser, ot, index) {
 
           if ( ot.isShootout || ot.isOvertime ) {
-            loser.team.points += 1 //use this format instead of ++ to see where points get assigned
             loser.team.overtimeShootoutLosses++
           }
           else {
@@ -108,7 +108,6 @@ angular.module('Stats', ['Teams', 'Games'])
 
           //  update winner
           winner.team.wins++
-          winner.team.points += 2
           winner.team.goalsFor += winner.score
           winner.team.goalsAgainst += loser.score
 
