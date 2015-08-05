@@ -97,7 +97,8 @@ angular.module('Stats', ['Teams', 'Games'])
           winner.team.shootoutWins++
           loser.team.shootoutLosses++
 
-        } else {
+        }
+        if( !ot.isOvertime && !ot.isShootout ) {
            loser.team.regulationLosses++
         }
 
