@@ -10,10 +10,11 @@
     <div class="col-sm-12">
       <label for="">Game Date:</label>
       <input type="date" ng-model="ctrl.newGame.date" required class="form-control form-control-auto">
+      <hr>
     </div>
   </div>
   <div class="row">
-    <div class="form-group col-sm-6">
+    <div class="form-group well col-sm-5">
       <h3>
         <label for="">Away Team</label>
       </h3>
@@ -23,11 +24,14 @@
       </select>
       <br><p>
         <label for="">Final Score</label>
-        <input type="number" class="form-control form-control-auto" ng-model="ctrl.newGame.finalScoreAwayTeam" required>
+        <input type="number" class="form-control form-control-auto" ng-model="ctrl.newGame.finalScoreAwayTeam" required min="0">
 
       </p>
     </div>
-    <div class="form-group col-sm-6">
+    <div class="col-sm-2 at-symbol">
+      @
+    </div>
+    <div class="form-group well col-sm-5">
       <h3>
         <label for="">Home Team</label>
       </h3>
@@ -37,7 +41,7 @@
       </select>
       <br><p>
         <label for="">Final Score</label>
-        <input type="number" class="form-control form-control-auto" ng-model="ctrl.newGame.finalScoreHomeTeam" required>
+        <input type="number" class="form-control form-control-auto" ng-model="ctrl.newGame.finalScoreHomeTeam" required min="0">
       </p>
     </div>
   </div>
@@ -55,7 +59,7 @@
   <div class="row">
     <div class="col-sm-12">
       <hr>
-      <button class="btn btn-primary">Add Game</button>
+      <button class="btn btn-primary" ng-disabled="ctrl.newGame.finalScoreAwayTeam === ctrl.newGame.finalScoreHomeTeam && ctrl.newGame.awayTeam.Id === ctrl.newGame.hoemTeamId">Add Game</button>
     </div>
   </div>
 </form>

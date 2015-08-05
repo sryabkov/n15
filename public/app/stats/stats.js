@@ -100,6 +100,8 @@ angular.module('Stats', ['Teams', 'Games'])
         if ( ot.isShootout ) {
           winner.team.shootoutWins++
           loser.team.shootoutLosses++
+        } else {
+        if( !ot.isOvertime && !ot.isShootout ) {
         }
 
         //  update winner
