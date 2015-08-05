@@ -31,7 +31,7 @@ angular.module('Games', ['ngResource'])
     }
 
     function dateTransform(gameDate) {
-      var d = [gameDate.getMonth(),gameDate.getDate(), gameDate.getFullYear()];
+      var d = [gameDate.getMonth()+1,gameDate.getDate(), gameDate.getFullYear()];
       return d.join('/');
     }
 
