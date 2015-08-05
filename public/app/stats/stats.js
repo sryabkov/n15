@@ -50,6 +50,7 @@ angular.module('Stats', ['Teams', 'Games'])
     .factory('StatsCalculator', function() {
       var calc = {
         calculateStandings: function(games, teams, progressGrid) {
+
           angular.forEach(games, function(game, index) {
             var homeTeam = teams[game.homeTeamId - 1],
                 awayTeam = teams[game.awayTeamId - 1]
@@ -80,10 +81,13 @@ angular.module('Stats', ['Teams', 'Games'])
             var formattedResult = game.finalScoreAwayTeam + "-" + game.finalScoreHomeTeam + " ";
             formattedResult += game.hadOT ? (game.hadSO ? 'SO' : 'OT') : '';
             progressGrid[homeTeam.id - 1][awayTeam.id - 1] = formattedResult;
+
           })
 
           angular.forEach(teams, function (team, index) {
             team.goalDifferential = team.goalsFor - team.goalsAgainst
+            team.gamesPlayed = team.wins + team.regulationLosses + team.overtimeShootoutLosses
+            team.regulationOvertimeWins = team.wins - team.shootoutWins
           });
 
         },
@@ -103,7 +107,6 @@ angular.module('Stats', ['Teams', 'Games'])
           }
 
           //  update winner
-          winner.team.gamesPlayed++;
           winner.team.wins++
           winner.team.points += 2
           winner.team.goalsFor += winner.score
@@ -111,7 +114,6 @@ angular.module('Stats', ['Teams', 'Games'])
 
 
           // update loser
-          loser.team.gamesPlayed++;
           loser.team.goalsFor += loser.score
           loser.team.goalsAgainst += winner.score
 
