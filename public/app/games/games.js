@@ -20,7 +20,10 @@ angular.module('Games', ['ngResource'])
       return self.teams[id - 1].teamName
     }
 
-    self.newGame = {};
+    self.newGame = {
+      finalScoreAwayTeam: 0,
+      finalScoreHomeTeam: 0
+    };
 
     self.addGame = function() {
       self.newGame.id = self.games.length + 1;
