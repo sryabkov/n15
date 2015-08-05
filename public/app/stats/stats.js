@@ -60,7 +60,7 @@ angular.module('Stats', ['Teams', 'Games'])
               standings = [];
 
           ot.isOvertime = game.hadOT;
-          ot.isShootout = game.hadSO || false;
+          ot.isShootout = game.hadSO;
 
           if( game.finalScoreAwayTeam > game.finalScoreHomeTeam ) {
             winner.team = awayTeam;
@@ -88,32 +88,33 @@ angular.module('Stats', ['Teams', 'Games'])
 
       },
       recordGameResults: function(winner, loser, ot, index) {
-        // track losses correctly
-        if( ot.isOvertime ) {
+
+        if ( ot.isShootout || ot.isOvertime ) {
+          loser.team.points += 1 //use this format instead of ++ to see where points get assigned
           loser.team.overtimeShootoutLosses++
-          loser.team.points++
         }
-        if( ot.isShootout ) {
+        else {
+          loser.team.regulationLosses++
+        }
+
+        if ( ot.isShootout ) {
           winner.team.shootoutWins++
           loser.team.shootoutLosses++
-
-        } else {
-           loser.team.regulationLosses++
         }
 
         //  update winner
+        winner.team.gamesPlayed++;
         winner.team.wins++
         winner.team.points += 2
         winner.team.goalsFor += winner.score
         winner.team.goalsAgainst += loser.score
-        winner.team.regulationOvertimeWins =  winner.team.wins - winner.team.shootoutWins
-        winner.team.gamesPlayed = winner.team.wins + winner.team.regulationLosses + winner.team.overtimeShootoutLosses
+
 
         // update loser
+        loser.team.gamesPlayed++;
         loser.team.goalsFor += loser.score
         loser.team.goalsAgainst += winner.score
-        loser.team.regulationOvertimeLosses = loser.team.regulationOvertimeLosses - winner.team.shootoutLosses
-        loser.team.gamesPlayed = loser.team.wins + loser.team.regulationLosses + loser.team.overtimeShootoutLosses
+
     }
   }
   return calc;
