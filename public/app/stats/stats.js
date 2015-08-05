@@ -20,6 +20,7 @@ angular.module('Stats', ['Teams', 'Games'])
         team.shootoutWins = 0;
         team.shootoutLosses = 0;
         team.regulationOvertimeWins = 0;
+        team.regulationOvertimeLosses = 0;
         team.goalsFor = 0;
         team.goalsAgainst = 0;
         team.goalDifferential = 0;
@@ -49,7 +50,6 @@ angular.module('Stats', ['Teams', 'Games'])
   .factory('StatsCalculator', function() {
     var calc = {
       calculateStandings: function(games, teams, progressGrid) {
-
         angular.forEach(games, function(game, index) {
           var homeTeam = teams[game.homeTeamId - 1],
               awayTeam = teams[game.awayTeamId - 1]
@@ -60,8 +60,7 @@ angular.module('Stats', ['Teams', 'Games'])
               standings = [];
 
           ot.isOvertime = game.hadOT;
-          ot.isShootout = game.hadSO;
-
+          ot.isShootout = game.hadSO || false;
 
           if( game.finalScoreAwayTeam > game.finalScoreHomeTeam ) {
             winner.team = awayTeam;
@@ -83,46 +82,40 @@ angular.module('Stats', ['Teams', 'Games'])
           progressGrid[homeTeam.id - 1][awayTeam.id - 1] = formattedResult;
         })
 
-
         angular.forEach(teams, function (team, index) {
           team.goalDifferential = team.goalsFor - team.goalsAgainst
-
-          // var test = team.gamesPlayed === (team.wins + team.regulationLosses + team.overtimeShootoutLosses)
-          // console.log(test, index, team);
         });
 
       },
       recordGameResults: function(winner, loser, ot, index) {
-
         // track losses correctly
         if( ot.isOvertime ) {
           loser.team.overtimeShootoutLosses++
           loser.team.points++
-        } else if( ot.isShootout ) {
+        }
+        if( ot.isShootout ) {
           winner.team.shootoutWins++
           loser.team.shootoutLosses++
-          loser.team.points++
+
         } else {
            loser.team.regulationLosses++
         }
 
         //  update winner
-        winner.team.gamesPlayed++
         winner.team.wins++
         winner.team.points += 2
         winner.team.goalsFor += winner.score
         winner.team.goalsAgainst += loser.score
-        winner.team.regulationOvertimeWins = winner.team.wins - winner.team.shootoutWins
+        winner.team.regulationOvertimeWins =  winner.team.wins - winner.team.shootoutWins
+        winner.team.gamesPlayed = winner.team.wins + winner.team.regulationLosses + winner.team.overtimeShootoutLosses
 
         // update loser
-        loser.team.gamesPlayed++
         loser.team.goalsFor += loser.score
         loser.team.goalsAgainst += winner.score
-        loser.team.regulationOvertimeWins = loser.team.wins - loser.team.shootoutWins
-
-      }
+        loser.team.regulationOvertimeLosses = loser.team.regulationOvertimeLosses - winner.team.shootoutLosses
+        loser.team.gamesPlayed = loser.team.wins + loser.team.regulationLosses + loser.team.overtimeShootoutLosses
     }
-
+  }
   return calc;
 
   })
