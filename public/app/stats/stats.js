@@ -115,18 +115,18 @@ angular.module('Stats', ['Teams', 'Games'])
         }
 
         //  update winner
-        winner.team.gamesPlayed++
         winner.team.wins++
         winner.team.points += 2
         winner.team.goalsFor += winner.score
         winner.team.goalsAgainst += loser.score
         winner.team.regulationOvertimeWins =  winner.team.wins - winner.team.shootoutWins
+        winner.team.gamesPlayed = winner.team.wins + winner.team.regulationLosses + winner.team.overtimeShootoutLosses
 
         // update loser
-        loser.team.gamesPlayed++
         loser.team.goalsFor += loser.score
         loser.team.goalsAgainst += winner.score
         loser.team.regulationOvertimeLosses = loser.team.regulationOvertimeLosses - winner.team.shootoutLosses
+        loser.team.gamesPlayed = loser.team.wins + loser.team.regulationLosses + loser.team.overtimeShootoutLosses
         console.log(loser, winner);
         console.log('****************************************');
       }
