@@ -1,25 +1,29 @@
-var app = angular.module('n15App', []);
+var app = angular.module('n15App', [
+  'n15-games',
+  'n15-teams'
+  ]);
 
-app.controller('n15Controller', function ($scope, $http) {
+app.controller('n15Controller', function (TeamsService, GamesService, $q, $scope, $http) {
 
-  $http.get('app/tournament.json')
-      .success(function(res) {
-        $scope.teams = res.teams;
-        $scope.gameResults = res.gameResults;
-        $scope.createInitProgressGrid();
-        $scope.calculateStandings();
+  $scope.teams = TeamsService.query();
+  $scope.gameResults = GamesService.query();
 
-        var noTeams = $scope.teams.length;
-        $scope.totalGames = noTeams * noTeams - noTeams;
-        $scope.percentGamesPlayed = Math.round($scope.gameResults.length * 100 / $scope.totalGames);
-      })
-      .error(function (data, status, headers, config) {
-        console.log("error loading data");
-      });
+  $q.all([$scope.teams.$promise, $scope.gameResults.$promise])
+  .then(function() {
+    var noTeams = $scope.teams.length;
+    createInitProgressGrid();
+    calculateStandings();
+    $scope.totalGames = noTeams * noTeams - noTeams;
+    $scope.percentGamesPlayed = Math.round($scope.gameResults.length * 100 / $scope.totalGames);
+  });
 
   $scope.progressGrid = [];
 
-  $scope.calculateStandings = function() {
+  $scope.calculateStandings = calculateStandings;
+
+  $scope.createInitProgressGrid = createInitProgressGrid;
+
+  function calculateStandings() {
     var teams = $scope.teams;
 
     angular.forEach(teams, function(team) {
@@ -102,8 +106,7 @@ app.controller('n15Controller', function ($scope, $http) {
 
     if(isShootout) {
       ot_so = 'SO';
-    }
-    else if(isOvertime) {
+    } else if(isOvertime) {
       ot_so = 'OT';
     }
 
@@ -120,8 +123,7 @@ app.controller('n15Controller', function ($scope, $http) {
     return awayTeamScore < homeTeamScore;
   };
 
-  $scope.createInitProgressGrid = function()
-  {
+  function createInitProgressGrid() {
     var numberOfTeams = $scope.teams.length;
     var grid = $scope.progressGrid;
 
@@ -135,9 +137,5 @@ app.controller('n15Controller', function ($scope, $http) {
     }
     $scope.progressGrid = grid;
   }
-
-
-
-
 
 });

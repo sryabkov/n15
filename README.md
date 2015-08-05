@@ -17,8 +17,3 @@ __Requires node.js be installed. Use Homebrew to install node on a Mac.__
 Must get collaborator access on heroku. Sign up for an account and ask Bernardo to add you to the app once sign-up is complete.
 
 - commit changes and push to the master branch on heroku to deply
-
-##Coming soon
-
-- MongoDB datastore
--A form to add games played
