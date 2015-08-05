@@ -50,7 +50,6 @@ angular.module('Stats', ['Teams', 'Games'])
   .factory('StatsCalculator', function() {
     var calc = {
       calculateStandings: function(games, teams, progressGrid) {
-
         angular.forEach(games, function(game, index) {
           var homeTeam = teams[game.homeTeamId - 1],
               awayTeam = teams[game.awayTeamId - 1]
@@ -62,8 +61,6 @@ angular.module('Stats', ['Teams', 'Games'])
 
           ot.isOvertime = game.hadOT;
           ot.isShootout = game.hadSO || false;
-          console.log('set SO:', ot.isShootout);
-
 
           if( game.finalScoreAwayTeam > game.finalScoreHomeTeam ) {
             winner.team = awayTeam;
@@ -85,30 +82,20 @@ angular.module('Stats', ['Teams', 'Games'])
           progressGrid[homeTeam.id - 1][awayTeam.id - 1] = formattedResult;
         })
 
-
         angular.forEach(teams, function (team, index) {
           team.goalDifferential = team.goalsFor - team.goalsAgainst
-
-          // var test = team.gamesPlayed === (team.wins + team.regulationLosses + team.overtimeShootoutLosses)
-          // console.log(test, index, team);
         });
 
       },
       recordGameResults: function(winner, loser, ot, index) {
-        console.log(ot);
         // track losses correctly
         if( ot.isOvertime ) {
-          console.log('isOT');
           loser.team.overtimeShootoutLosses++
           loser.team.points++
-
         }
         if( ot.isShootout ) {
-          console.log('isSO');
           winner.team.shootoutWins++
           loser.team.shootoutLosses++
-
-          loser.team.points++
 
         } else {
            loser.team.regulationLosses++
@@ -127,11 +114,8 @@ angular.module('Stats', ['Teams', 'Games'])
         loser.team.goalsAgainst += winner.score
         loser.team.regulationOvertimeLosses = loser.team.regulationOvertimeLosses - winner.team.shootoutLosses
         loser.team.gamesPlayed = loser.team.wins + loser.team.regulationLosses + loser.team.overtimeShootoutLosses
-        console.log(loser, winner);
-        console.log('****************************************');
-      }
     }
-
+  }
   return calc;
 
   })
