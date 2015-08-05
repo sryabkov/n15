@@ -20,6 +20,7 @@ angular.module('Stats', ['Teams', 'Games'])
         team.shootoutWins = 0;
         team.shootoutLosses = 0;
         team.regulationOvertimeWins = 0;
+        team.regulationOvertimeLosses = 0;
         team.goalsFor = 0;
         team.goalsAgainst = 0;
         team.goalDifferential = 0;
@@ -60,7 +61,8 @@ angular.module('Stats', ['Teams', 'Games'])
               standings = [];
 
           ot.isOvertime = game.hadOT;
-          ot.isShootout = game.hadSO;
+          ot.isShootout = game.hadSO || false;
+          console.log('set SO:', ot.isShootout);
 
 
           if( game.finalScoreAwayTeam > game.finalScoreHomeTeam ) {
@@ -93,15 +95,21 @@ angular.module('Stats', ['Teams', 'Games'])
 
       },
       recordGameResults: function(winner, loser, ot, index) {
-
+        console.log(ot);
         // track losses correctly
         if( ot.isOvertime ) {
+          console.log('isOT');
           loser.team.overtimeShootoutLosses++
           loser.team.points++
-        } else if( ot.isShootout ) {
+
+        }
+        if( ot.isShootout ) {
+          console.log('isSO');
           winner.team.shootoutWins++
           loser.team.shootoutLosses++
+
           loser.team.points++
+
         } else {
            loser.team.regulationLosses++
         }
@@ -112,14 +120,15 @@ angular.module('Stats', ['Teams', 'Games'])
         winner.team.points += 2
         winner.team.goalsFor += winner.score
         winner.team.goalsAgainst += loser.score
-        winner.team.regulationOvertimeWins = winner.team.wins - winner.team.shootoutWins
+        winner.team.regulationOvertimeWins =  winner.team.wins - winner.team.shootoutWins
 
         // update loser
         loser.team.gamesPlayed++
         loser.team.goalsFor += loser.score
         loser.team.goalsAgainst += winner.score
-        loser.team.regulationOvertimeWins = loser.team.wins - loser.team.shootoutWins
-
+        loser.team.regulationOvertimeLosses = loser.team.regulationOvertimeLosses - winner.team.shootoutLosses
+        console.log(loser, winner);
+        console.log('****************************************');
       }
     }
 
