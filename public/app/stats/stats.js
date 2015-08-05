@@ -42,7 +42,7 @@ angular.module('Stats', ['Teams', 'Games'])
         initTeams(self.teams);
 
         self.calculatedStanding = StatsCalculator.calculateStandings(self.games, self.teams, self.progressGrid);
-      });
+      })
 
   })
 
@@ -50,71 +50,75 @@ angular.module('Stats', ['Teams', 'Games'])
     var calc = {
       calculateStandings: function(games, teams, progressGrid) {
 
-        angular.forEach(games, function(game) {
+        angular.forEach(games, function(game, index) {
           var homeTeam = teams[game.homeTeamId - 1],
               awayTeam = teams[game.awayTeamId - 1]
-              gameResult = {};
+              gameResult = {},
+              winner = {},
+              loser = {},
+              ot = {},
+              standings = [];
+
+          ot.isOvertime = game.hadOT;
+          ot.isShootout = game.hadSO;
+
 
           if( game.finalScoreAwayTeam > game.finalScoreHomeTeam ) {
-            gameResult.winningTeam = awayTeam;
-            gameResult.winningTeamScore = game.finalScoreAwayTeam;
-            gameResult.losingTeam = homeTeam;
-            gameResult.losingTeamScore = game.finalScoreHomeTeam;
-            gameResult.isOvertime = game.hadOT;
-            gameResult.isShootout = game.hadSO;
+            winner.team = awayTeam;
+            winner.score = game.finalScoreAwayTeam;
+            loser.team = homeTeam;
+            loser.score = game.finalScoreHomeTeam;
 
           } else if ( game.finalScoreAwayTeam < game.finalScoreHomeTeam ) {
-            gameResult.winningTeam = homeTeam;
-            gameResult.winningTeamScore = game.finalScoreHomeTeam;
-            gameResult.losingTeam = awayTeam;
-            gameResult.losingTeamScore = game.finalScoreAwayTeam;
-            gameResult.isOvertime = game.hadOT;
-            gameResult.isShootout = game.hadSO;
+            winner.team = homeTeam;
+            winner.score = game.finalScoreHomeTeam;
+            loser.team = awayTeam;
+            loser.score = game.finalScoreAwayTeam;
           }
-          calc.recordGameResults(gameResult);
+
+          calc.recordGameResults(winner, loser, ot, index);
+
           var formattedResult = game.finalScoreAwayTeam + "-" + game.finalScoreHomeTeam + " ";
           formattedResult += game.hadOT ? (game.hadSO ? 'SO' : 'OT') : '';
           progressGrid[homeTeam.id - 1][awayTeam.id - 1] = formattedResult;
         })
 
-        angular.forEach(teams, function (team) {
+
+        angular.forEach(teams, function (team, index) {
           team.goalDifferential = team.goalsFor - team.goalsAgainst
-        })
+
+          // var test = team.gamesPlayed === (team.wins + team.regulationLosses + team.overtimeShootoutLosses)
+          // console.log(test, index, team);
+        });
+
       },
-      recordGameResults: function(gameResult) {
+      recordGameResults: function(winner, loser, ot, index) {
 
-        var winningTeam = gameResult.winningTeam,
-            losingTeam = gameResult.losingTeam,
-            winningTeamScore = gameResult.winningTeamScore,
-            losingTeamScore = gameResult.losingTeamScore,
-            isOvertime = gameResult.isOvertime,
-            isShootout = gameResult.isShootout;
+        // track losses correctly
+        if( ot.isOvertime ) {
+          loser.team.overtimeShootoutLosses++
+          loser.team.points++
+        } else if( ot.isShootout ) {
+          winner.team.shootoutWins++
+          loser.team.shootoutLosses++
+          loser.team.points++
+        } else {
+           loser.team.regulationLosses++
+        }
 
-          winningTeam.wins++;
-          winningTeam.points += 2;
-          losingTeam.regulationLosses++;
+        //  update winner
+        winner.team.gamesPlayed++
+        winner.team.wins++
+        winner.team.points += 2
+        winner.team.goalsFor += winner.score
+        winner.team.goalsAgainst += loser.score
+        winner.team.regulationOvertimeWins = winner.team.wins - winner.team.shootoutWins
 
-          if( isShootout ) {
-            winningTeam.shootoutWins++;
-            losingTeam.shootoutLoses++;
-            losingTeam.overtimeShootoutLosses++;
-            losingTeam.points += 1;
-          }
-          if( isOvertime ) {
-            losingTeam.overtimeShootoutLosses++;
-            losingTeam.points += 1;
-          }
-
-          winningTeam.gamesPlayed++;
-          winningTeam.goalsFor += winningTeamScore;
-          winningTeam.goalsAgainst += losingTeamScore;
-
-          losingTeam.gamesPlayed++;
-          losingTeam.goalsFor += losingTeamScore;
-          losingTeam.goalsAgainst += winningTeamScore;
-
-          winningTeam.regulationOvertimeWins = winningTeam.wins - winningTeam.shootoutWins;
-          losingTeam.regulationOvertimeWins = losingTeam.wins - losingTeam.shootoutWins;
+        // update loser
+        loser.team.gamesPlayed++
+        loser.team.goalsFor += loser.score
+        loser.team.goalsAgainst += winner.score
+        loser.team.regulationOvertimeWins = loser.team.wins - loser.team.shootoutWins
 
       }
     }
