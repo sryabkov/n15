@@ -34,11 +34,7 @@ app.use(bodyParser.json());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-// home
-// app.get('/', function(req, res) {
-//   res.render('pages/index')
-// });
-// new home
+
 app.get('/', function(req, res) {
   res.render('pages/n15')
 });
