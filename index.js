@@ -39,12 +39,20 @@ app.get('/', function(req, res) {
   res.render('pages/n15')
 });
 
+app.get('/playoffs', function(req, res) {
+  res.render('pages/playoffs')
+});
+
 app.get('/teams', function(req, res) {
   res.render('pages/teams');
 });
 
 app.get('/games', function(req, res) {
   res.render('pages/games');
+});
+
+app.get('/playoffs', function(req, res) {
+  res.render('pages/playoffs');
 });
 
 app.get('/new', function(req, res) {
